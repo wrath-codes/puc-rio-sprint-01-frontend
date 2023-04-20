@@ -1,34 +1,18 @@
 import './index.css'
-import useRecipeStore from "./feature/recipe/recipeStore"
-import { useEffect } from "react"
 
-function Recipes() {
-    const { recipes, createRecipe, updateRecipe, deleteRecipe, getRecipe, getRecipes, resetRecipe } = useRecipeStore()
+import Hero from "./components/Hero"
+import { Recipes } from "./components/Recipes"
 
-    useEffect(() => {
-        getRecipes()
-    }, [])
-
-    return (
-        <div className="text-center">
-            {recipes.map(recipe => (
-                <div key={recipe.id}>
-                    <h2 className="font-bold">{recipe.title}</h2>
-                    <p>{recipe.description}</p>
-                </div>
-            ))}
-        </div>
-    )
-}
 
 function App() {
     return (
         <div className="App">
-            <div className="text-center">
-                Hello
-
-                <Recipes />
-            </div>
+            <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-white to-gray-200">
+                <div className="container mt-12 flex flex-col items-center justify-center gap-12 px-4">
+                    <Hero />
+                    <Recipes />
+                </div>
+            </main>
         </div>
     )
 }

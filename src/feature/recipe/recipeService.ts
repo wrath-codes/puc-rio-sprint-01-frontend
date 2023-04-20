@@ -66,11 +66,17 @@ const deleteRecipe = async (id: number): Promise<void> => {
     });
 }
 
+const searchRecipes = async (title: string): Promise<Recipe[]> => {
+    const response = await fetch(`/api/recipes/search/${title}`);
+    return await response.json();
+}
+
 export const recipeService = {
     getRecipes,
     getRecipe,
     createRecipe,
     updateRecipe,
     deleteRecipe,
+    searchRecipes
 };
 
