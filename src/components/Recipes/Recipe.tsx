@@ -1,30 +1,64 @@
+import { Fragment, useState } from "react";
+import { RecipeOpen as RecipeType } from "../../feature/recipe/recipeService";
 import useRecipeStore from "../../feature/recipe/recipeStore";
-import { TrashIcon, PencilSquareIcon, ChevronDownIcon } from "@heroicons/react/24/solid"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 
-import { Recipe as RecipeType } from "../../feature/recipe/recipeService"; export default function Recipe({ recipe }: { recipe: RecipeType }) {
-    const { deleteRecipe, getRecipe, updateRecipe } = useRecipeStore()
+export default function Recipe({ recipe }: { recipe: RecipeType }) {
+    const { lockOtherRecipes, lockThisRecipe, unlockThisRecipe, getRecipe, selectedRecipe } = useRecipeStore();
+
+    const unlockRecipe = () => {
+        unlockThisRecipe(recipe.id);
+        lockOtherRecipes(recipe.id);
+        getRecipe(recipe.id);
+    }
+
+    const lockRecipe = () => {
+        lockThisRecipe(recipe.id);
+    }
+
+
     return (
-        <div className="flex justify-between gap-x-96 py-5 hover:bg-indigo-500/40 px-4 rounded-md">
-            <div className="flex">
-                <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">{recipe.title}</p>
+        <Fragment>
+            <div className="flex justify-between gap-x-96 py-5 hover:bg-green-300/40 px-4 rounded-md hover:border-2 cursor-pointer"
+                onClick={recipe.open === false ? unlockRecipe : lockRecipe}>
+                <div className="flex">
+                    <div className="min-w-0 flex-auto">
+                        <p className="text-sm font-semibold leading-6 text-gray-900">{recipe.title}</p>
+                    </div>
                 </div>
+                <div className="hidden sm:flex sm:flex-row sm:items-end gap-1">
+                    {recipe.open === false ? (
+                        <button className="flex items-center gap-1">
+                            <ChevronDownIcon className="h-5 w-5" />
+                        </button>
+                    ) : (
+                        <button className="flex items-center gap-1">
+                            <ChevronUpIcon className="h-5 w-5" />
+                        </button>
+                    )}
+                </div>
+                {recipe.open === true && (
+                    <div className="flex flex-col gap-1">
+                        <p className="text-sm font-semibold leading-6 text-gray-900">Ingredients</p>
+                        <ul className="flex flex-col gap-1">
+                            {selectedRecipe?.ingredients.map((ingredient) => (
+                                <li key={ingredient.id} className="text-sm font-semibold leading-6 text-gray-900">{ingredient.name}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                {recipe.open === true && (
+                    <div className="flex flex-col gap-1">
+                        <p className="text-sm font-semibold leading-6 text-gray-900">Steps</p>
+                        <ul className="flex flex-col gap-1">
+                            {selectedRecipe?.steps.map((step) => (
+                                <li key={step.id} className="text-sm font-semibold leading-6 text-gray-900">{step.title}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
-            <div className="hidden sm:flex sm:flex-row sm:items-end gap-1">
-                <button className="cursor-pointer inline-flex items-center border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-800"
-                    onClick={() => {
-                        getRecipe(recipe.id)
-                        console.log(recipe)
-                    }}>
-                    <ChevronDownIcon className="h-8 w-8 py-2 px-2" />
-                </button>
-                <button className="cursor-pointer inline-flex items-center border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-800">
-                    <TrashIcon className="h-8 w-8 py-2 px-2" />
-                </button>
-                <button className="cursor-pointer inline-flex items-center border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-yellow-300 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-800">
-                    <PencilSquareIcon className="h-8 w-8 py-2 px-2" />
-                </button>
-            </div>
-        </div>
-    )
+        </Fragment>
+    );
 }
+

@@ -1,18 +1,21 @@
-import { recipeService, Recipe, RecipeFull } from './recipeService';
+import { recipeService, Recipe, RecipeFull, RecipeBase, RecipeOpen } from './recipeService';
 import { create } from "zustand";
 
 // RecipeStore is a store that holds the state of the recipes
 type RecipeStore = {
-    recipes: Recipe[],
+    recipes: RecipeOpen[],
     selectedRecipe: RecipeFull | null,
     getRecipes: () => Promise<void>,
     getRecipe: (id: number) => Promise<void>,
-    createRecipe: (recipe: Recipe) => Promise<void>,
-    updateRecipe: (id: number, recipe: Recipe) => Promise<void>,
+    createRecipe: (recipe: RecipeBase) => Promise<void>,
+    updateRecipe: (id: number, recipe: RecipeBase) => Promise<void>,
     deleteRecipe: (id: number) => Promise<void>,
     resetRecipe: () => void,
     resetRecipes: () => void,
     searchRecipes: (title: string) => Promise<void>,
+    lockOtherRecipes: (id: number) => void,
+    unlockThisRecipe: (id: number) => void,
+    lockThisRecipe: (id: number) => void,
 }
 
 // This is the initial state of the store
@@ -37,7 +40,7 @@ const useRecipeStore = create<RecipeStore>(
         },
 
         // The createRecipe function creates a new recipe and adds it to the recipes array
-        createRecipe: async (recipe: Recipe) => {
+        createRecipe: async (recipe: RecipeBase) => {
             const newRecipe = await recipeService.createRecipe(recipe);
             set(state => ({
                 recipes: [...state.recipes, newRecipe],
@@ -45,7 +48,7 @@ const useRecipeStore = create<RecipeStore>(
         },
 
         // The updateRecipe function updates a recipe and updates the recipes array
-        updateRecipe: async (id: number, recipe: Recipe) => {
+        updateRecipe: async (id: number, recipe: RecipeBase) => {
             const updatedRecipe = await recipeService.updateRecipe(id, recipe);
             set(state => ({
                 recipes: state.recipes.map(recipe => recipe.id === id ? updatedRecipe : recipe),
@@ -72,8 +75,24 @@ const useRecipeStore = create<RecipeStore>(
 
         // The searchRecipes function searches for recipes by title
         searchRecipes: async (title: string) => {
-            recipes: await recipeService.searchRecipes(title);
+            const newResult = await recipeService.searchRecipes(title);
+            set({ recipes: newResult });
         },
+        lockOtherRecipes: (id: number) => {
+            set(state => ({
+                recipes: state.recipes.map(recipe => recipe.id === id ? { ...recipe, open: true } : { ...recipe, open: false }),
+            }));
+        },
+        unlockThisRecipe: (id: number) => {
+            set(state => ({
+                recipes: state.recipes.map(recipe => recipe.id === id ? { ...recipe, open: true } : recipe),
+            }));
+        },
+        lockThisRecipe: (id: number) => {
+            set(state => ({
+                recipes: state.recipes.map(recipe => recipe.id === id ? { ...recipe, open: false } : recipe),
+            }));
+        }
     })
 )
 

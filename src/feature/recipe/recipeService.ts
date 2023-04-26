@@ -22,13 +22,17 @@ export interface Recipe extends RecipeBase {
     id: number,
 }
 
-export interface RecipeFull extends RecipeBase {
+export interface RecipeOpen extends Recipe {
+    open: boolean,
+}
+
+export interface RecipeFull extends Recipe {
     ingredients: Ingredient[],
     steps: Step[],
 }
 
 
-const getRecipes = async (): Promise<Recipe[]> => {
+const getRecipes = async (): Promise<RecipeOpen[]> => {
     const response = await fetch('/api/recipes');
     return await response.json();
 }
@@ -38,7 +42,7 @@ const getRecipe = async (id: number): Promise<RecipeFull> => {
     return await response.json();
 }
 
-const createRecipe = async (recipe: RecipeBase): Promise<Recipe> => {
+const createRecipe = async (recipe: RecipeBase): Promise<RecipeOpen> => {
     const response = await fetch('/api/recipes', {
         method: 'POST',
         headers: {
@@ -46,10 +50,14 @@ const createRecipe = async (recipe: RecipeBase): Promise<Recipe> => {
         },
         body: JSON.stringify(recipe),
     });
-    return await response.json();
+    const newRecipe = await response.json();
+    return {
+        ...newRecipe,
+        open: false,
+    };
 }
 
-const updateRecipe = async (id: number, recipe: RecipeBase): Promise<Recipe> => {
+const updateRecipe = async (id: number, recipe: RecipeBase): Promise<RecipeOpen> => {
     const response = await fetch(`/api/recipes/${id}`, {
         method: 'PUT',
         headers: {
@@ -57,7 +65,11 @@ const updateRecipe = async (id: number, recipe: RecipeBase): Promise<Recipe> => 
         },
         body: JSON.stringify(recipe),
     });
-    return await response.json();
+    const updatedRecipe = await response.json();
+    return {
+        ...updatedRecipe,
+        open: false,
+    };
 }
 
 const deleteRecipe = async (id: number): Promise<void> => {
@@ -66,7 +78,7 @@ const deleteRecipe = async (id: number): Promise<void> => {
     });
 }
 
-const searchRecipes = async (title: string): Promise<Recipe[]> => {
+const searchRecipes = async (title: string): Promise<RecipeOpen[]> => {
     const response = await fetch(`/api/recipes/search/${title}`);
     return await response.json();
 }
