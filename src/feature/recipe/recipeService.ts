@@ -1,11 +1,11 @@
-interface Ingredient {
+export interface Ingredient {
     id: number,
     name: string,
     quantity: string,
     recipe_id: number,
 }
 
-interface Step {
+export interface Step {
     id: number,
     title: string,
     description: string,

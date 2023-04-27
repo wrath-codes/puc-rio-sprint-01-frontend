@@ -26,7 +26,7 @@ export function Recipes() {
 
     return (
         <Fragment>
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between ">
                 <SearchRecipes />
                 <AddRecipeModal />
                 <RecipeCount recipeCount={recipes.length} />
