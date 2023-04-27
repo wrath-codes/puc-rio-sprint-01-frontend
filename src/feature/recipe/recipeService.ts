@@ -7,13 +7,15 @@ export interface Ingredient extends IngredientBase {
     recipe_id: number,
 }
 
-export interface Step {
-    id: number,
+export interface StepBase {
     title: string,
-    description: string,
+    description?: string,
+}
+export interface Step extends StepBase {
+    id: number,
     recipe_id: number,
-    prev_step: number,
     next_step: number,
+    prev_step: number,
 }
 export interface RecipeBase {
     title: string,
@@ -134,6 +136,56 @@ const deleteIngredient = async (recipe_id: number, ingredient_id: number): Promi
     });
 }
 
+// the addStep function adds a step to a recipe on the server
+const addStep = async (recipe_id: number, step: StepBase): Promise<Step> => {
+    const response = await fetch(`/api/recipes/${recipe_id}/steps`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(step),
+    });
+    return await response.json();
+}
+
+// The deleteStep function deletes a step from a recipe on the server
+const deleteStep = async (recipe_id: number, step_id: number): Promise<void> => {
+    await fetch(`/api/recipes/${recipe_id}/steps/${step_id}`, {
+        method: 'DELETE',
+    });
+}
+
+// The updateStep function updates a step from a recipe on the server
+const updateStep = async (recipe_id: number, step_id: number, step: StepBase): Promise<Step> => {
+    const response = await fetch(`/api/recipes/${recipe_id}/steps/${step_id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(step),
+    });
+    return await response.json();
+}
+
+// The getStep function gets a step from a recipe on the server
+const getStep = async (recipe_id: number, step_id: number): Promise<Step> => {
+    const response = await fetch(`/api/recipes/${recipe_id}/steps/${step_id}`);
+    return await response.json();
+}
+
+// The getRecipeSteps function gets all steps from a recipe on the server in order
+const getRecipeSteps = async (recipe_id: number): Promise<Step[]> => {
+    const response = await fetch(`/api/recipes/${recipe_id}/steps`);
+    return await response.json();
+}
+
+// The swapSteps function swaps two steps from a recipe on the server
+const swapSteps = async (recipe_id: number, step_01_id: number, step_02_id: number): Promise<void> => {
+    await fetch(`/api/recipes/${recipe_id}/steps/${step_01_id}/swap/${step_02_id}`, {
+        method: 'PUT',
+    });
+}
+
 
 export const recipeService = {
     getRecipes,
@@ -147,5 +199,11 @@ export const recipeService = {
     getRecipeIngredients,
     updateIngredient,
     deleteIngredient,
+    addStep,
+    deleteStep,
+    updateStep,
+    getStep,
+    getRecipeSteps,
+    swapSteps,
 };
 
