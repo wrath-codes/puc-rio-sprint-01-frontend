@@ -66,7 +66,7 @@ export default function Recipe({ recipe }: { recipe: RecipeType }) {
                                 </button>
                             </div>
                             <div className="grid grid-rows-2 gap-5 sm:grid-rows-1 sm:grid-cols-2">
-                                <IngredientList ingredients={selectedRecipe?.ingredients} />
+                                <IngredientList ingredients={selectedRecipe?.ingredients} edit={recipe.edit} />
                                 <StepList steps={selectedRecipe?.steps} />
                             </div>
                         </Fragment>
