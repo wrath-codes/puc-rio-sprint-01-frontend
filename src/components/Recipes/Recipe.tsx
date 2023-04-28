@@ -8,15 +8,19 @@ import RecipeDetail from "./RecipeDetail";
 import DeleteRecipeModal from "./modals/DeleteRecipeModal";
 
 export default function Recipe({ recipe }: { recipe: RecipeType }) {
-    const { lockOtherRecipes, lockThisRecipe, unlockThisRecipe, getRecipe, selectedRecipe, editRecipeOff, editRecipeOn, getRecipeIngredients, ingredients, steps, getRecipeSteps } = useRecipeStore();
+    const { lockOtherRecipes, lockThisRecipe, unlockThisRecipe, getRecipe, selectedRecipe, editRecipeOff, editRecipeOffAll, editRecipeOn, getRecipeIngredients, ingredients, steps, getRecipeSteps } = useRecipeStore();
+
+
 
     const unlockRecipe = () => {
         unlockThisRecipe(recipe.id);
         lockOtherRecipes(recipe.id);
+        editRecipeOffAll();
         getRecipeIngredients(recipe.id);
         getRecipeSteps(recipe.id);
         getRecipe(recipe.id);
     }
+
 
     const lockRecipe = () => {
         lockThisRecipe(recipe.id);
@@ -24,19 +28,17 @@ export default function Recipe({ recipe }: { recipe: RecipeType }) {
 
     const activateEditMode = () => {
         editRecipeOn(recipe.id);
-        console.log("edit mode activated");
     }
 
     const deactivateEditMode = () => {
         editRecipeOff(recipe.id);
-        console.log("edit mode deactivated");
     }
 
 
     return (
         <Fragment>
             <div className="flex flex-col justify-between gap-x-96 py-5 hover:bg-gray-400/30 px-4 rounded-md hover:border-2 cursor-pointer w-full">
-                <div className="flex"
+                <div className=""
                     onClick={recipe.open === false ? unlockRecipe : lockRecipe}
                 >
                     <div className="min-w-0 flex-auto">
@@ -74,7 +76,7 @@ export default function Recipe({ recipe }: { recipe: RecipeType }) {
                             </div>
                             <div className="grid grid-rows-2 gap-5 sm:grid-rows-1 sm:grid-cols-2">
                                 <IngredientList ingredients={ingredients} edit={recipe.edit} />
-                                <StepList steps={steps} />
+                                <StepList steps={steps} edit={recipe.edit} />
                             </div>
                         </Fragment>
                     )}

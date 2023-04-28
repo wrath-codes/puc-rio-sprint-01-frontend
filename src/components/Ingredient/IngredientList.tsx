@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import { Ingredient } from "../../feature/recipe/recipeService";
 import useRecipeStore from "../../feature/recipe/recipeStore";
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import EditIngredientModal from "./modals/EditIngredientModal";
 import DeleteIngredientModal from "./modals/DeleteIngredientModal";
+import AddIngredientModal from "./modals/AddIngredientModal";
 
 export default function IngredientList({ ingredients, edit }: { ingredients: Ingredient[] | undefined, edit: boolean }) {
     const { selectedRecipe } = useRecipeStore();
@@ -12,10 +12,7 @@ export default function IngredientList({ ingredients, edit }: { ingredients: Ing
             <div className="flex flex-col gap-1">
                 <div className="flex flex-row justify-between">
                     <p className="text-sm font-bold leading-6 text-indigo-500/80">Ingredients</p>
-                    <div className="flex flex-row gap-1 items-center">
-                        <p className="text-indigo-500/90 font-medium text-sm">Add</p>
-                        <PlusIcon className="h-5 w-5 text-white bg-indigo-500 p-0.5 rounded-md" />
-                    </div>
+                    <AddIngredientModal recipe_id={selectedRecipe?.id} open_status={false} />
                     <p className="text-sm font-bold leading-6 text-indigo-400/80 ml-4">{ingredients?.length}</p>
                 </div>
                 <ul className="flex flex-col gap-2 bg-indigo-400/30 rounded-md p-4">

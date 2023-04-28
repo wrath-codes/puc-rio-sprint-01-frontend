@@ -1,4 +1,4 @@
-import { recipeService, RecipeFull, RecipeBase, RecipeOpen, Ingredient, IngredientBase, Step, StepBase } from './recipeService';
+import { recipeService, RecipeBase, RecipeOpen, Ingredient, IngredientBase, Step, StepBase } from './recipeService';
 import { create } from "zustand";
 
 // RecipeStore is a store that holds the state of the recipes
@@ -159,6 +159,7 @@ const useRecipeStore = create<RecipeStore>(
                 recipes: state.recipes.map(recipe => recipe.id === id ? { ...recipe, open: false } : recipe),
             }));
         },
+
 
         // The editRecipeOn function sets the edit property of the recipe with the given id to true
         editRecipeOn: (id: number) => {
