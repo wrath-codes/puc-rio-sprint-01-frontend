@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { PencilIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
-import { Recipe as RecipeType, RecipeBase } from "../../../feature/recipe/recipeService";
+import { RecipeOpen as RecipeType, RecipeBase } from "../../../feature/recipe/recipeService";
 
 export default function EditRecipeModal({ recipe, open_status }: { recipe: RecipeType, open_status: boolean }) {
     const { updateRecipe, getRecipes } = useRecipeStore()
@@ -46,7 +46,7 @@ export default function EditRecipeModal({ recipe, open_status }: { recipe: Recip
         <Fragment>
             <button className="cursor-pointer inline-flex items-center border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-yellow-300 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-800"
                 onClick={handleOpen}>
-                <PencilSquareIcon className="h-8 w-8 py-2 px-2" />
+                <PencilSquareIcon className="h-6 w-6 py-1 px-1" />
             </button>
             {open && (
                 <div className="fixed z-10 inset-0 overflow-y-auto">

@@ -65,7 +65,7 @@ export default function DeleteRecipeModal({ recipe_id, open_status }: { recipe_i
                     </div>
                 </div>
             </div>
-            <button className="cursor-pointer inline-flex items-center border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800"
+            <button className="cursor-pointer inline-flex items-center border border-transparent text-xs leading-4 my-2 font-medium rounded-md text-white bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800"
                 onClick={handleOpen}>
                 <TrashIcon className="h-8 w-8 py-2 px-2" aria-hidden="true" />
             </button>

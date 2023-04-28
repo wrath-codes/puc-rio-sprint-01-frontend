@@ -6,7 +6,7 @@ type RecipeStore = {
 
     // states
     recipes: RecipeOpen[],
-    selectedRecipe: RecipeFull | null,
+    selectedRecipe: RecipeOpen,
     ingredient: Ingredient | null,
     ingredients: Ingredient[],
     step: Step | null,
@@ -26,6 +26,7 @@ type RecipeStore = {
     lockThisRecipe: (id: number) => void,
     editRecipeOn: (id: number) => void,
     editRecipeOff: (id: number) => void,
+    editRecipeOffAll: () => void,
 
     // actions related to ingredient
     addIngredient: (recipe_id: number, ingredient: IngredientBase) => Promise<void>,
@@ -51,7 +52,13 @@ const useRecipeStore = create<RecipeStore>(
         recipes: [],
 
         // The initial state of the selected recipe is null
-        selectedRecipe: null,
+        selectedRecipe: {
+            id: 0,
+            title: '',
+            description: '',
+            open: false,
+            edit: false,
+        },
 
         // The initial state of the ingredient is null
         ingredient: null,
@@ -74,8 +81,15 @@ const useRecipeStore = create<RecipeStore>(
         // The getRecipe function fetches a single recipe from the recipeService
         getRecipe: async (id: number) => {
             const recipe = await recipeService.getRecipe(id);
-            set({ selectedRecipe: recipe });
+            set({
+                selectedRecipe: {
+                    ...recipe,
+                    open: true,
+                    edit: false,
+                }
+            });
         },
+
 
         // The createRecipe function creates a new recipe and adds it to the recipes array
         createRecipe: async (recipe: RecipeBase) => {
@@ -103,7 +117,15 @@ const useRecipeStore = create<RecipeStore>(
 
         // The resetRecipe function resets the selected recipe to null
         resetRecipe: () => {
-            set({ selectedRecipe: null });
+            set({
+                selectedRecipe: {
+                    id: 0,
+                    title: '',
+                    description: '',
+                    open: false,
+                    edit: false,
+                }
+            });
         },
 
         // The resetRecipes function resets the recipes array to an empty array
@@ -152,6 +174,13 @@ const useRecipeStore = create<RecipeStore>(
             }));
         },
 
+        // The editRecipeOffAll function sets the edit property of all recipes to false
+        editRecipeOffAll: () => {
+            set(state => ({
+                recipes: state.recipes.map(recipe => ({ ...recipe, edit: false })),
+            }));
+        },
+
         // The addIngredient function adds an ingredient to the recipe with the given id
         addIngredient: async (recipe_id: number, ingredient: IngredientBase) => {
             const newIngredient = await recipeService.addIngredient(recipe_id, ingredient);
@@ -169,7 +198,7 @@ const useRecipeStore = create<RecipeStore>(
         // The getRecipeIngredients function fetches all the ingredients of a recipe from the recipeService
         getRecipeIngredients: async (recipe_id: number) => {
             const ingredients = await recipeService.getRecipeIngredients(recipe_id);
-            set({ ingredients });
+            set({ ingredients: ingredients });
         },
 
         // The updateIngredient function updates an ingredient and updates the ingredients array
@@ -187,6 +216,7 @@ const useRecipeStore = create<RecipeStore>(
                 ingredients: state.ingredients.filter(ingredient => ingredient.id !== ingredient_id),
             }));
         },
+
 
         // The addStep function adds a step to the recipe with the given id
         addStep: async (recipe_id: number, step: StepBase) => {
