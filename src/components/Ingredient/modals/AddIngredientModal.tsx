@@ -3,17 +3,21 @@ import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { IngredientBase } from "../../../feature/recipe/recipeService";
 
+// Component to add a new ingredient
 export default function AddIngredientModal({ recipe_id, open_status }: { recipe_id: number, open_status: boolean }) {
     const { addIngredient, getRecipeIngredients } = useRecipeStore();
     const [open, setOpen] = useState(open_status);
 
+    // State to store the new ingredient
     const [newIngredient, setNewIngredient] = useState<IngredientBase>({
         name: "",
         quantity: "",
     })
 
+    // Destructure the new ingredient
     const { name, quantity } = newIngredient;
 
+    // Functions to open and close the modal
     const handleOpen = () => {
         setOpen(true);
     }
@@ -22,6 +26,7 @@ export default function AddIngredientModal({ recipe_id, open_status }: { recipe_
         setOpen(false);
     }
 
+    // Function to update the new ingredient state
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewIngredient((prevState) => ({
             ...prevState,
@@ -29,6 +34,7 @@ export default function AddIngredientModal({ recipe_id, open_status }: { recipe_
         }))
     }
 
+    // Function to add the new ingredient
     const handleSubmit = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         event.preventDefault();
         addIngredient(recipe_id, newIngredient);

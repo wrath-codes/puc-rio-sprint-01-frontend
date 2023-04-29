@@ -261,7 +261,9 @@ const useRecipeStore = create<RecipeStore>(
         swapSteps: async (recipe_id: number, step1_id: number, step2_id: number) => {
             await recipeService.swapSteps(recipe_id, step1_id, step2_id);
             const steps = await recipeService.getRecipeSteps(recipe_id);
+            console.log(steps);
             set({ steps: steps });
+
         },
     }));
 

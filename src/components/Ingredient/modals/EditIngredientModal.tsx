@@ -3,18 +3,22 @@ import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { PencilIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Ingredient, IngredientBase } from "../../../feature/recipe/recipeService";
 
+// Component to Edit an Ingredient
 export default function EditIngredientModal({ ingredient, open_status }: { ingredient: Ingredient, open_status: boolean }) {
     const { updateIngredient, getRecipeIngredients } = useRecipeStore();
     const [open, setOpen] = useState(open_status);
 
+    // State to hold the updated ingredient
     const [updatedIngredient, setUpdatedIngredient] = useState<IngredientBase>({
         name: ingredient.name,
         quantity: ingredient.quantity,
     })
 
+    // Destructure the updated ingredient
     const { name, quantity } = updatedIngredient;
 
 
+    // Functions to open and close the modal
     const handleOpen = () => {
         setOpen(true);
     }
@@ -23,6 +27,7 @@ export default function EditIngredientModal({ ingredient, open_status }: { ingre
         setOpen(false);
     }
 
+    // Function to update the updated ingredient state
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedIngredient((prevState) => ({
             ...prevState,
@@ -30,6 +35,7 @@ export default function EditIngredientModal({ ingredient, open_status }: { ingre
         }))
     }
 
+    // Function to update the ingredient
     const handleSubmit = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         event.preventDefault();
         updateIngredient(ingredient.recipe_id, ingredient.id, updatedIngredient);

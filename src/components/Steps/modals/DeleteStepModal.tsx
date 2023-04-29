@@ -3,18 +3,22 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { Step } from "../../../feature/recipe/recipeService";
 
+// Component to display a single step
 export default function DeleteStepModal({ step, open_status }: { step: Step, open_status: boolean }) {
     const { deleteStep, getRecipeSteps } = useRecipeStore();
     const [open, setOpen] = useState(open_status);
 
+    // open modal
     const handleOpen = () => {
         setOpen(true);
     }
 
+    // close modal
     const handleClose = () => {
         setOpen(false);
     }
 
+    // delete step
     const handleSubmit = (e: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         e.preventDefault();
         deleteStep(step.recipe_id, step.id);

@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+// Component to display the number of recipes
 export default function RecipeCount({ recipeCount }: { recipeCount: number }) {
     return (
         <Fragment>

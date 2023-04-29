@@ -2,6 +2,7 @@ import './index.css'
 
 import Hero from "./components/Hero"
 import { Recipes } from "./components/Recipes"
+import Footer from "./components/Footer"
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
                 <div className="container mt-12 flex flex-col items-center justify-center gap-12 px-4">
                     <Hero />
                     <Recipes />
+                    <Footer />
                 </div>
             </main>
         </div>

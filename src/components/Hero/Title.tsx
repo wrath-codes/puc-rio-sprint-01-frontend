@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 
+// Component to display title
 export default function Title() {
     return (
         <Fragment>

@@ -3,18 +3,22 @@ import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
 
+// Component to delete a recipe
 export default function DeleteRecipeModal({ recipe_id, open_status }: { recipe_id: number, open_status: boolean }) {
     const { deleteRecipe } = useRecipeStore()
     const [open, setOpen] = useState(open_status)
 
+    // Delete the recipe
     const handleDelete = () => {
         deleteRecipe(recipe_id)
     }
 
+    // Open the modal
     const handleOpen = () => {
         setOpen(true)
     }
 
+    // Close the modal
     const handleClose = () => {
         setOpen(false)
     }

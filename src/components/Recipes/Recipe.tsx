@@ -7,11 +7,13 @@ import StepList from "../Steps/StepList";
 import RecipeDetail from "./RecipeDetail";
 import DeleteRecipeModal from "./modals/DeleteRecipeModal";
 
+// Component to display a single recipe
 export default function Recipe({ recipe }: { recipe: RecipeType }) {
     const { lockOtherRecipes, lockThisRecipe, unlockThisRecipe, getRecipe, selectedRecipe, editRecipeOff, editRecipeOffAll, editRecipeOn, getRecipeIngredients, ingredients, steps, getRecipeSteps } = useRecipeStore();
 
-
-
+    // Get all ingredients and steps for selected recipe
+    // Locks other recipes when a recipe is opened
+    // Unlocks other recipes when a recipe is closed
     const unlockRecipe = () => {
         unlockThisRecipe(recipe.id);
         lockOtherRecipes(recipe.id);
@@ -21,15 +23,17 @@ export default function Recipe({ recipe }: { recipe: RecipeType }) {
         getRecipe(recipe.id);
     }
 
-
+    // Locks a recipe when a recipe is closed
     const lockRecipe = () => {
         lockThisRecipe(recipe.id);
     }
 
+    // Activates edit mode for a recipe
     const activateEditMode = () => {
         editRecipeOn(recipe.id);
     }
 
+    // Deactivates edit mode for a recipe
     const deactivateEditMode = () => {
         editRecipeOff(recipe.id);
     }

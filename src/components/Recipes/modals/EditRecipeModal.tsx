@@ -3,26 +3,31 @@ import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { PencilIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { RecipeOpen as RecipeType, RecipeBase } from "../../../feature/recipe/recipeService";
 
+// Component to edit a recipe
 export default function EditRecipeModal({ recipe, open_status }: { recipe: RecipeType, open_status: boolean }) {
     const { updateRecipe, getRecipes } = useRecipeStore()
     const [open, setOpen] = useState(open_status)
 
+    // State to store the updated recipe
     const [updatedRecipe, setUpdatedRecipe] = useState<RecipeBase>({
         title: recipe.title,
         description: recipe.description,
     })
 
+    // Destructure the updated recipe
     const { title, description } = updatedRecipe
 
-
+    // Functions to open and close the modal
     const handleOpen = () => {
         setOpen(true)
     }
 
+    // Functions to open and close the modal
     const handleClose = () => {
         setOpen(false)
     }
 
+    // Function to update the updated recipe state
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedRecipe((prevState) => ({
             ...prevState,
@@ -31,15 +36,13 @@ export default function EditRecipeModal({ recipe, open_status }: { recipe: Recip
     }
 
 
+    // Function to update the updated recipe
     const handleSubmit = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         event.preventDefault()
         updateRecipe(recipe.id, updatedRecipe)
         getRecipes()
         handleClose()
     }
-
-
-
 
 
     return (

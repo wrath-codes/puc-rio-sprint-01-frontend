@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 
+// Component to display subtitle
 export default function Subtitle() {
     return (
         <Fragment>

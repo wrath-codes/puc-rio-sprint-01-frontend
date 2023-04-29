@@ -3,17 +3,21 @@ import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { StepBase } from "../../../feature/recipe/recipeService";
 
+// Component to add a new step
 export default function AddStepModal({ recipe_id, open_status }: { recipe_id: number, open_status: boolean }) {
     const { addStep, getRecipeSteps } = useRecipeStore();
     const [open, setOpen] = useState(open_status);
 
+    // State to store the new step
     const [newStep, setNewStep] = useState<StepBase>({
         title: "",
         description: "",
     });
 
+    // Destructure the new step
     const { title, description } = newStep;
 
+    // Handlers for opening and closing the modal
     const handleOpen = () => {
         setOpen(true);
     }
@@ -22,6 +26,7 @@ export default function AddStepModal({ recipe_id, open_status }: { recipe_id: nu
         setOpen(false);
     }
 
+    // Handler for input changes
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewStep((prevState) => ({
             ...prevState,
@@ -29,11 +34,16 @@ export default function AddStepModal({ recipe_id, open_status }: { recipe_id: nu
         }))
     }
 
+    // Handler for submitting the new step
     const handleSubmit = (e: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         e.preventDefault();
         addStep(recipe_id, newStep);
         handleClose();
         getRecipeSteps(recipe_id);
+        setNewStep({
+            title: "",
+            description: "",
+        })
     }
 
     return (

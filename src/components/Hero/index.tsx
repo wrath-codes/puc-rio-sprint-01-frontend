@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import Subtitle from "./Subtitle";
 import Title from "./Title";
 
-
+// Component to display main hero section
 export default function Hero() {
     return (
         <Fragment>

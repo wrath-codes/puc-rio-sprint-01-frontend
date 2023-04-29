@@ -1,19 +1,23 @@
 import { Fragment, useState } from "react";
 import useRecipeStore from "../../../feature/recipe/recipeStore";
-import { PencilIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { StepBase, Step } from "../../../feature/recipe/recipeService";
 
+// Component to edit a single step
 export default function EditStepModal({ step, open_status }: { step: Step, open_status: boolean }) {
     const { updateStep, getRecipeSteps } = useRecipeStore();
     const [open, setOpen] = useState(open_status);
 
+    // State to hold the updated step
     const [updatedStep, setUpdatedStep] = useState<StepBase>({
         title: step.title,
         description: step.description,
     })
 
+    // Destructure the updated step
     const { title, description } = updatedStep;
 
+    // Functions to open and close the modal
     const handleOpen = () => {
         setOpen(true);
     }
@@ -22,6 +26,7 @@ export default function EditStepModal({ step, open_status }: { step: Step, open_
         setOpen(false);
     }
 
+    // Function to update the state when the user types in the input fields
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedStep((prevState) => ({
             ...prevState,
@@ -29,6 +34,7 @@ export default function EditStepModal({ step, open_status }: { step: Step, open_
         }))
     }
 
+    // Function to update the step
     const handleSubmit = (e: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         e.preventDefault();
         updateStep(step.recipe_id, step.id, updatedStep);
@@ -60,6 +66,7 @@ export default function EditStepModal({ step, open_status }: { step: Step, open_
                                     </div>
                                 </div>
                             </div>
+
                             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
                                 <button type="submit" onClick={handleSubmit} className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-500 text-base font-medium text-white hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm">Update</button>
                                 <button type="button" onClick={handleClose} className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>

@@ -4,20 +4,24 @@ import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { RecipeBase } from "../../../feature/recipe/recipeService";
 
+// Component to add a new recipe
 export default function AddRecipeModal() {
     const { createRecipe } = useRecipeStore();
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
+    // Function new title input
     const changeTitle = (e: any) => {
         setTitle(e.target.value);
     };
 
+    // Function new description input
     const changeDescription = (e: any) => {
         setDescription(e.target.value);
     };
 
+    // Function to submit the new recipe
     const submitRecipe = () => {
         const recipe: RecipeBase = {
             title: title,

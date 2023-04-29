@@ -3,18 +3,22 @@ import useRecipeStore from "../../../feature/recipe/recipeStore";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { Ingredient } from "../../../feature/recipe/recipeService";
 
+// Component to delete an ingredient
 export default function DeleteIngredientModal({ ingredient, open_status }: { ingredient: Ingredient, open_status: boolean }) {
     const { deleteIngredient, getRecipeIngredients } = useRecipeStore();
     const [open, setOpen] = useState(open_status);
 
+    // Open and close modal
     const handleOpen = () => {
         setOpen(true);
     }
 
+    // Open and close modal
     const handleClose = () => {
         setOpen(false);
     }
 
+    // Function to delete the ingredient
     const handleSubmit = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         event.preventDefault();
         deleteIngredient(ingredient.recipe_id, ingredient.id);

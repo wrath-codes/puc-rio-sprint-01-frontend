@@ -1,3 +1,4 @@
+// Interface definitions for the recipe service
 export interface IngredientBase {
     name: string,
     quantity: string,

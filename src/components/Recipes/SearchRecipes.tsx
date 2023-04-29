@@ -1,15 +1,17 @@
 import { Fragment, useState } from "react";
 import useRecipeStore from "../../feature/recipe/recipeStore";
 
-
+// Component to search for recipes
 export const SearchRecipes = () => {
     const { searchRecipes, getRecipes } = useRecipeStore();
     const [search, setSearch] = useState("");
 
+    // function to handle search input
     const changeSearch = (e: any) => {
         setSearch(e.target.value);
     };
 
+    // function to handle search submit
     const handleSubmit = (e: any) => {
         e.preventDefault();
         const searchQuery = search.trim();
@@ -21,12 +23,12 @@ export const SearchRecipes = () => {
         setSearch("");
     };
 
+    // function to handle search clear
     const handleClear = (e: any) => {
         e.preventDefault();
         setSearch("");
         getRecipes();
     };
-
 
 
     return (
