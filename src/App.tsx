@@ -1,9 +1,8 @@
 import './index.css'
 
+import Footer from "./components/Footer"
 import Hero from "./components/Hero"
 import { Recipes } from "./components/Recipes"
-import Footer from "./components/Footer"
-
 
 function App() {
     return (
